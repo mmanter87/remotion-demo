@@ -19,11 +19,7 @@ export type ModuleHeadlineCardProps = {
   moduleLine1: string; // e.g. "Keychain AI"
   moduleLine2: string; // e.g. "Module Overview"
   subtitle: string; // module-specific value line
-  tagline?: string; // optional company tagline, defaults below
 };
-
-const DEFAULT_TAGLINE =
-  'KeychainOS is a next-generation ERP, built with best-in-class technology and AI to redefine modern manufacturing.';
 
 // Shared gradient text style. Uses background-clip so the same gradient
 // technique we used in the static PNG versions translates directly.
@@ -40,10 +36,9 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
   moduleLine1,
   moduleLine2,
   subtitle,
-  tagline = DEFAULT_TAGLINE,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
 
   // Staggered entrance timings (in frames)
   const tagIn = spring({ frame, fps, config: { damping: 200 }, durationInFrames: 15 });
@@ -63,14 +58,26 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const taglineOpacity = interpolate(frame, [34, 48], [0, 1], {
-    extrapolateLeft: 'clamp',
+
+  // Exit: over the last 12 frames, scale the text group up slightly and fade
+  // to 0 so the card hands off cleanly instead of cutting mid-motion.
+  const exit = interpolate(
+    frame,
+    [durationInFrames - 12, durationInFrames - 1],
+    [0, 1],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+  );
+
+  // Slow push-in on the text group only (background stays fixed to avoid
+  // edge artifacts), compounded by the exit scale-up.
+  const pushIn = interpolate(frame, [0, durationInFrames], [1, 1.03], {
     extrapolateRight: 'clamp',
   });
+  const scale = pushIn * (1 + exit * 0.04);
 
-  // Subtle continuous zoom on the whole card, matching the "slow push-in"
-  // treatment used across the OpenArt-generated clips for visual consistency.
-  const scale = interpolate(frame, [0, 90], [1, 1.03], {
+  // Background drift: ivory to warm light gray with a faint gold tint in the
+  // far corner, drifting slowly over the full duration. Deliberately subtle.
+  const bgDrift = interpolate(frame, [0, durationInFrames], [0, 45], {
     extrapolateRight: 'clamp',
   });
 
@@ -81,10 +88,24 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
         fontFamily,
         justifyContent: 'center',
         alignItems: 'center',
-        transform: `scale(${scale})`,
       }}
     >
-      <div style={{ textAlign: 'center', maxWidth: 1400 }}>
+      <AbsoluteFill
+        style={{
+          backgroundImage:
+            'linear-gradient(120deg, #FFFFFF 0%, #F5F3EF 60%, rgba(201, 162, 39, 0.07) 100%)',
+          backgroundSize: '180% 180%',
+          backgroundPosition: `${bgDrift}% ${bgDrift}%`,
+        }}
+      />
+      <div
+        style={{
+          textAlign: 'center',
+          maxWidth: 1400,
+          transform: `scale(${scale})`,
+          opacity: 1 - exit,
+        }}
+      >
         {/* KeychainOS tag */}
         <div
           style={{
@@ -145,19 +166,6 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
           }}
         >
           {subtitle}
-        </div>
-
-        {/* Company tagline */}
-        <div
-          style={{
-            fontSize: 24,
-            fontWeight: 400,
-            color: '#7A7D8A',
-            marginTop: 8,
-            opacity: taglineOpacity,
-          }}
-        >
-          {tagline}
         </div>
       </div>
     </AbsoluteFill>
