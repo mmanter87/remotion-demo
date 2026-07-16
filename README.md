@@ -11,6 +11,8 @@
 
 Welcome to your Remotion project!
 
+This project renders a "Hello World" video using React components. See [CLAUDE.md](./CLAUDE.md) for a guide to how Remotion compositions, sequences, and animations work in this codebase.
+
 ## Commands
 
 **Install Dependencies**
