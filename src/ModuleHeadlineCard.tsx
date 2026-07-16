@@ -93,7 +93,7 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
       <AbsoluteFill
         style={{
           backgroundImage:
-            'linear-gradient(120deg, #FFFFFF 0%, #F5F3EF 60%, rgba(201, 162, 39, 0.07) 100%)',
+            'linear-gradient(120deg, #FFFFFF 0%, #EFEBE3 60%, rgba(201, 162, 39, 0.14) 100%)',
           backgroundSize: '180% 180%',
           backgroundPosition: `${bgDrift}% ${bgDrift}%`,
         }}
