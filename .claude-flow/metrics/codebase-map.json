@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-08-02T23:10:38.833Z",
+  "projectRoot": "/home/user/remotion-demo",
+  "structure": {
+    "hasPackageJson": true,
+    "hasTsConfig": true,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1785712238833
+}
