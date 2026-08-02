@@ -6,10 +6,6 @@
       "headers": {
         "x-api-key": "${API_KEY_21ST}"
       }
-    },
-    "ruflo": {
-      "command": "npx",
-      "args": ["ruflo", "mcp", "start"]
     }
   }
 }
