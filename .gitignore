@@ -16,3 +16,4 @@ out
 # Ruflo runtime databases
 ruvector.db
 .swarm/
+.claude-flow/daemon-state.json
