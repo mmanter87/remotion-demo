@@ -136,6 +136,12 @@
         "source": "github",
         "repo": "obra/superpowers"
       }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
     }
   },
   "enabledPlugins": {
@@ -143,6 +149,7 @@
     "ruflo-swarm@ruflo": true,
     "ruflo-rag-memory@ruflo": true,
     "ruflo-neural-trader@ruflo": true,
-    "superpowers@superpowers-dev": true
+    "superpowers@superpowers-dev": true,
+    "caveman@caveman": true
   }
 }
