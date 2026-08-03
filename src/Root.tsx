@@ -3,6 +3,10 @@ import { Composition } from "remotion";
 import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ModuleHeadlineCard } from "./ModuleHeadlineCard";
+import {
+  CollectorsCircuitPromo,
+  PROMO_DURATION_IN_FRAMES,
+} from "./CollectorsCircuit/CollectorsCircuitPromo";
 
 // Central place to edit copy for all module cards.
 // Swap/add subtitle text here as you learn each module — especially
@@ -65,6 +69,18 @@ export const MODULE_CARDS = {
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Instagram Reels promo (9:16):
+          npx remotion render CollectorsCircuitPromo out/collectors-circuit-promo.mp4 */}
+      <Composition
+        id="CollectorsCircuitPromo"
+        component={CollectorsCircuitPromo}
+        durationInFrames={PROMO_DURATION_IN_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{}}
+      />
+
       <Composition
         // You can take the "id" to render a video:
         // npx remotion render HelloWorld
