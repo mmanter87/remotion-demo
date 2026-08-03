@@ -8,109 +8,151 @@ import {
 } from "remotion";
 import { Backdrop } from "./Backdrop";
 import { Sparkles } from "./Sparkles";
-import { colors, fonts } from "./theme";
+import { colors, foilGradient, fonts } from "./theme";
 
 export const CtaScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const logoIn = spring({ frame: frame - 2, fps, config: { damping: 200 } });
-  const lineIn = spring({ frame: frame - 14, fps, config: { damping: 200 } });
+  const panelIn = spring({
+    frame: frame - 2,
+    fps,
+    config: { damping: 15, stiffness: 130, mass: 0.9 },
+  });
+  const lineIn = spring({ frame: frame - 18, fps, config: { damping: 200 } });
   const buttonIn = spring({
-    frame: frame - 26,
+    frame: frame - 30,
     fps,
     config: { damping: 13, stiffness: 150, mass: 0.8 },
   });
-  const footIn = spring({ frame: frame - 44, fps, config: { damping: 200 } });
+  const footIn = spring({ frame: frame - 48, fps, config: { damping: 200 } });
 
-  const pulse = 1 + Math.sin(frame / 6) * 0.025;
+  const pulse = 1 + Math.sin(frame / 6) * 0.02;
+  const shine = interpolate(frame, [24, 110], [0, 100], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill>
-      <Backdrop glowA={colors.yellow} glowB={colors.purple} />
-      <Sparkles seed="cta" count={40} />
+      <Backdrop id="cta" rays spotlightY="42%" />
+      <Sparkles seed="cta" count={38} color={colors.gold} />
 
       <AbsoluteFill
         style={{
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          gap: 56,
+          gap: 54,
           padding: 60,
         }}
       >
+        {/* Gold-foil framed panel */}
         <div
           style={{
-            textAlign: "center",
-            lineHeight: 0.95,
-            opacity: logoIn,
-            transform: `translateY(${interpolate(logoIn, [0, 1], [-50, 0])}px)`,
+            borderRadius: 40,
+            padding: 4,
+            background: foilGradient,
+            boxShadow: "0 40px 120px rgba(0,0,0,0.7), 0 0 80px rgba(245,197,66,0.18)",
+            opacity: panelIn,
+            transform: `scale(${interpolate(panelIn, [0, 1], [0.8, 1])})`,
           }}
         >
           <div
             style={{
-              fontFamily: fonts.display,
-              fontSize: 120,
-              color: colors.white,
+              borderRadius: 36,
+              background: "#100D08",
+              padding: "72px 84px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 40,
             }}
           >
-            COLLECTORS
-          </div>
-          <div
-            style={{
-              fontFamily: fonts.display,
-              fontSize: 120,
-              background: `linear-gradient(120deg, ${colors.yellow}, ${colors.orange})`,
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            CIRCUIT
+            <div style={{ textAlign: "center", lineHeight: 1 }}>
+              <div
+                style={{
+                  fontFamily: fonts.display,
+                  fontSize: 112,
+                  color: colors.cream,
+                }}
+              >
+                COLLECTORS
+              </div>
+              <div
+                style={{
+                  fontFamily: fonts.display,
+                  fontSize: 112,
+                  backgroundImage: foilGradient,
+                  backgroundSize: "300% 100%",
+                  backgroundPosition: `${shine}% 50%`,
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                CIRCUIT
+              </div>
+            </div>
+
+            {/* Diamond divider */}
+            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+              <div style={{ width: 90, height: 2, background: colors.goldDeep }} />
+              <div
+                style={{
+                  width: 13,
+                  height: 13,
+                  background: colors.gold,
+                  transform: "rotate(45deg)",
+                }}
+              />
+              <div style={{ width: 90, height: 2, background: colors.goldDeep }} />
+            </div>
+
+            <div
+              style={{
+                fontFamily: fonts.body,
+                fontWeight: 500,
+                fontSize: 46,
+                color: colors.cream,
+                opacity: lineIn,
+                transform: `translateY(${interpolate(lineIn, [0, 1], [30, 0])}px)`,
+              }}
+            >
+              Your next grail is waiting.
+            </div>
+
+            <div
+              style={{
+                fontFamily: fonts.display,
+                fontSize: 54,
+                letterSpacing: 2,
+                color: "#0B0A08",
+                background: foilGradient,
+                borderRadius: 9999,
+                padding: "26px 62px",
+                opacity: buttonIn,
+                transform: `scale(${interpolate(buttonIn, [0, 1], [0.4, 1]) * pulse})`,
+                boxShadow: "0 0 70px rgba(245,197,66,0.4)",
+              }}
+            >
+              COLLECTORSCIRCUIT.COM
+            </div>
           </div>
         </div>
 
         <div
           style={{
             fontFamily: fonts.body,
-            fontWeight: 700,
-            fontSize: 52,
-            color: colors.white,
-            opacity: lineIn,
-            transform: `translateY(${interpolate(lineIn, [0, 1], [40, 0])}px)`,
-          }}
-        >
-          Your next grail is waiting.
-        </div>
-
-        <div
-          style={{
-            fontFamily: fonts.display,
-            fontSize: 64,
-            letterSpacing: 2,
-            color: colors.bg,
-            background: `linear-gradient(120deg, ${colors.yellow}, ${colors.orange})`,
-            borderRadius: 9999,
-            padding: "30px 70px",
-            opacity: buttonIn,
-            transform: `scale(${interpolate(buttonIn, [0, 1], [0.4, 1]) * pulse})`,
-            boxShadow: `0 0 90px ${colors.yellow}55`,
-          }}
-        >
-          COLLECTORSCIRCUIT.COM
-        </div>
-
-        <div
-          style={{
-            fontFamily: fonts.body,
-            fontWeight: 600,
-            fontSize: 36,
+            fontWeight: 500,
+            fontSize: 30,
+            letterSpacing: 6,
             color: colors.muted,
             opacity: footIn,
             transform: `translateY(${interpolate(footIn, [0, 1], [30, 0])}px)`,
           }}
         >
-          Follow for show dates & vendor drops
+          FOLLOW FOR SHOW DATES + VENDOR DROPS
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

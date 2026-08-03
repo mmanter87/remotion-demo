@@ -5,7 +5,14 @@ import { AbsoluteFill, random, useCurrentFrame } from "remotion";
 export const Sparkles: React.FC<{
   count?: number;
   seed?: string;
-}> = ({ count = 26, seed = "sparkle" }) => {
+  color?: string;
+  glow?: string;
+}> = ({
+  count = 26,
+  seed = "sparkle",
+  color = "#F5EFE2",
+  glow = "rgba(245,197,66,0.8)",
+}) => {
   const frame = useCurrentFrame();
 
   return (
@@ -26,9 +33,9 @@ export const Sparkles: React.FC<{
               width: size,
               height: size,
               borderRadius: 9999,
-              background: "white",
-              opacity: 0.1 + twinkle * 0.7,
-              boxShadow: `0 0 ${size * 3}px rgba(255,255,255,0.7)`,
+              background: color,
+              opacity: 0.08 + twinkle * 0.6,
+              boxShadow: `0 0 ${size * 3}px ${glow}`,
             }}
           />
         );

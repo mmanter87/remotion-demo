@@ -2,46 +2,77 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { colors } from "./theme";
 
-// Shared dark-arena background: radial vignette plus two slowly drifting
-// color blobs so every scene has subtle motion behind the foreground.
+// Card-table backdrop: warm spotlight over near-black, halftone print dots,
+// optional slow-rotating gold ray burst, film grain, and a vignette.
+// `id` must be unique per scene — two scenes overlap during transitions and
+// the SVG noise filter id would otherwise collide.
 export const Backdrop: React.FC<{
-  glowA?: string;
-  glowB?: string;
-}> = ({ glowA = colors.purple, glowB = colors.blue }) => {
+  id: string;
+  rays?: boolean;
+  spotlightY?: string;
+}> = ({ id, rays = false, spotlightY = "36%" }) => {
   const frame = useCurrentFrame();
-  const driftX = Math.sin(frame / 55) * 60;
-  const driftY = Math.cos(frame / 70) * 40;
 
   return (
-    <AbsoluteFill
-      style={{
-        background: `radial-gradient(circle at 50% 32%, #181838 0%, ${colors.bg} 68%)`,
-      }}
-    >
-      <div
+    <AbsoluteFill style={{ background: colors.bg }}>
+      {/* Warm spotlight */}
+      <AbsoluteFill
         style={{
-          position: "absolute",
-          width: 900,
-          height: 900,
-          borderRadius: 9999,
-          left: -300 + driftX,
-          top: -200 + driftY,
-          background: glowA,
-          opacity: 0.14,
-          filter: "blur(160px)",
+          background: `radial-gradient(ellipse 90% 55% at 50% ${spotlightY}, ${colors.bgWarm} 0%, transparent 70%)`,
         }}
       />
-      <div
+
+      {/* Slow gold ray burst */}
+      {rays ? (
+        <AbsoluteFill
+          style={{ justifyContent: "center", alignItems: "center" }}
+        >
+          <div
+            style={{
+              width: 3200,
+              height: 3200,
+              flexShrink: 0,
+              background: `repeating-conic-gradient(from ${frame * 0.25}deg, rgba(245,197,66,0.055) 0deg 7deg, transparent 7deg 16deg)`,
+              maskImage:
+                "radial-gradient(circle, black 0%, transparent 62%)",
+              WebkitMaskImage:
+                "radial-gradient(circle, black 0%, transparent 62%)",
+            }}
+          />
+        </AbsoluteFill>
+      ) : null}
+
+      {/* Halftone print dots */}
+      <AbsoluteFill
         style={{
-          position: "absolute",
-          width: 900,
-          height: 900,
-          borderRadius: 9999,
-          right: -320 - driftX,
-          bottom: -260 - driftY,
-          background: glowB,
-          opacity: 0.13,
-          filter: "blur(160px)",
+          backgroundImage:
+            "radial-gradient(circle, rgba(245,239,226,0.05) 1.3px, transparent 1.4px)",
+          backgroundSize: "16px 16px",
+        }}
+      />
+
+      {/* Film grain */}
+      <svg
+        width="100%"
+        height="100%"
+        style={{ position: "absolute", opacity: 0.05 }}
+      >
+        <filter id={`grain-${id}`}>
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.8"
+            numOctaves="2"
+            stitchTiles="stitch"
+          />
+        </filter>
+        <rect width="100%" height="100%" filter={`url(#grain-${id})`} />
+      </svg>
+
+      {/* Vignette */}
+      <AbsoluteFill
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 45%, transparent 48%, rgba(0,0,0,0.6) 100%)",
         }}
       />
     </AbsoluteFill>

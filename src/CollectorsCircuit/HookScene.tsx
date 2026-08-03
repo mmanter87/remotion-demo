@@ -8,116 +8,135 @@ import {
 } from "remotion";
 import { Backdrop } from "./Backdrop";
 import { Sparkles } from "./Sparkles";
-import { colors, fonts } from "./theme";
+import { StaggerText } from "./StaggerText";
+import { colors, foilGradient, fonts } from "./theme";
 
 export const HookScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const kickerIn = spring({ frame: frame - 4, fps, config: { damping: 200 } });
-  const titleIn = spring({
-    frame: frame - 12,
-    fps,
-    config: { damping: 14, stiffness: 160, mass: 0.8 },
-  });
   const circuitIn = spring({
-    frame: frame - 22,
+    frame: frame - 26,
     fps,
-    config: { damping: 13, stiffness: 160, mass: 0.8 },
+    config: { damping: 13, stiffness: 150, mass: 0.8 },
   });
-  const chipIn = spring({ frame: frame - 50, fps, config: { damping: 200 } });
+  const chipIn = spring({ frame: frame - 56, fps, config: { damping: 200 } });
 
-  const titleScale = interpolate(titleIn, [0, 1], [2.6, 1]);
-  const circuitScale = interpolate(circuitIn, [0, 1], [2.6, 1]);
-
-  const wave = interpolate(frame, [14, 48], [0, 1], {
+  const wave = interpolate(frame, [28, 62], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const shine = interpolate(frame, [34, 100], [0, 100], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
     <AbsoluteFill>
-      <Backdrop glowA={colors.yellow} glowB={colors.purple} />
-      <Sparkles seed="hook" count={30} />
+      <Backdrop id="hook" rays />
+      <Sparkles seed="hook" count={26} />
 
-      {/* Shockwave ring on the title slam */}
+      {/* Shockwave ring on the foil-line slam */}
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
         <div
           style={{
-            width: 500,
-            height: 500,
+            width: 560,
+            height: 560,
             borderRadius: 9999,
-            border: `6px solid ${colors.yellow}`,
-            transform: `scale(${0.3 + wave * 2.6})`,
-            opacity: (1 - wave) * 0.6,
+            border: `5px solid ${colors.gold}`,
+            transform: `scale(${0.3 + wave * 2.5})`,
+            opacity: (1 - wave) * 0.5,
           }}
         />
       </AbsoluteFill>
 
+      {/* Poster block: left-aligned, slightly rotated */}
       <AbsoluteFill
         style={{
           justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          gap: 30,
+          paddingLeft: 84,
+          paddingRight: 40,
+          transform: "rotate(-3deg)",
         }}
       >
         <div
           style={{
-            fontFamily: fonts.body,
-            fontWeight: 800,
-            fontSize: 36,
-            letterSpacing: 10,
-            color: colors.yellow,
+            display: "flex",
+            alignItems: "center",
+            gap: 26,
+            marginBottom: 38,
             opacity: kickerIn,
-            transform: `translateY(${interpolate(kickerIn, [0, 1], [40, 0])}px)`,
+            transform: `translateX(${interpolate(kickerIn, [0, 1], [-60, 0])}px)`,
           }}
         >
-          CALLING ALL COLLECTORS
+          <div
+            style={{
+              width: 92,
+              height: 4,
+              background: colors.gold,
+            }}
+          />
+          <div
+            style={{
+              fontFamily: fonts.body,
+              fontWeight: 600,
+              fontSize: 32,
+              letterSpacing: 8,
+              color: colors.gold,
+            }}
+          >
+            CALLING ALL COLLECTORS
+          </div>
         </div>
 
-        <div style={{ textAlign: "center", lineHeight: 0.92 }}>
-          <div
-            style={{
-              fontFamily: fonts.display,
-              fontSize: 200,
-              color: colors.white,
-              transform: `scale(${titleScale})`,
-              opacity: titleIn,
-              textShadow: "0 20px 60px rgba(0,0,0,0.6)",
-            }}
-          >
-            COLLECTORS
-          </div>
-          <div
-            style={{
-              fontFamily: fonts.display,
-              fontSize: 200,
-              transform: `scale(${circuitScale})`,
-              opacity: circuitIn,
-              background: `linear-gradient(120deg, ${colors.yellow}, ${colors.orange})`,
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            CIRCUIT
-          </div>
+        <StaggerText
+          text="COLLECTORS"
+          delay={10}
+          style={{
+            justifyContent: "flex-start",
+            fontFamily: fonts.display,
+            fontSize: 176,
+            lineHeight: 1,
+            color: colors.cream,
+            textShadow: "0 18px 60px rgba(0,0,0,0.7)",
+          }}
+        />
+
+        <div
+          style={{
+            fontFamily: fonts.display,
+            fontSize: 244,
+            lineHeight: 1.02,
+            opacity: circuitIn,
+            transform: `scale(${interpolate(circuitIn, [0, 1], [2.3, 1])})`,
+            transformOrigin: "left center",
+            backgroundImage: foilGradient,
+            backgroundSize: "300% 100%",
+            backgroundPosition: `${shine}% 50%`,
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          CIRCUIT
         </div>
 
         <div
           style={{
+            marginTop: 46,
+            alignSelf: "flex-start",
             fontFamily: fonts.body,
-            fontWeight: 700,
-            fontSize: 38,
-            letterSpacing: 4,
-            color: colors.white,
-            border: `2px solid rgba(248,249,255,0.35)`,
+            fontWeight: 600,
+            fontSize: 34,
+            letterSpacing: 5,
+            color: colors.cream,
+            border: `2px solid ${colors.gold}`,
             borderRadius: 9999,
-            padding: "18px 46px",
+            padding: "18px 44px",
+            background: "rgba(245,197,66,0.08)",
             opacity: chipIn,
             transform: `translateY(${interpolate(chipIn, [0, 1], [40, 0])}px)`,
-            background: "rgba(255,255,255,0.06)",
           }}
         >
           THE ULTIMATE TCG CARD SHOW
