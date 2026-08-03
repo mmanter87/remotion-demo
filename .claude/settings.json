@@ -130,12 +130,19 @@
         "source": "github",
         "repo": "ruvnet/ruflo"
       }
+    },
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
     }
   },
   "enabledPlugins": {
     "ruflo-core@ruflo": true,
     "ruflo-swarm@ruflo": true,
     "ruflo-rag-memory@ruflo": true,
-    "ruflo-neural-trader@ruflo": true
+    "ruflo-neural-trader@ruflo": true,
+    "superpowers@superpowers-dev": true
   }
 }
