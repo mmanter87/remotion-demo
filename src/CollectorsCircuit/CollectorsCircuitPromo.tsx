@@ -1,6 +1,7 @@
 import React from "react";
 import { linearTiming, TransitionSeries } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { CardsScene } from "./CardsScene";
 import { CtaScene } from "./CtaScene";
 import { HookScene } from "./HookScene";
@@ -11,8 +12,20 @@ import { TradeScene } from "./TradeScene";
 export const PROMO_DURATION_IN_FRAMES = 450;
 
 export const CollectorsCircuitPromo: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  // Fade to black at the tail so the Instagram loop doesn't snap-cut from
+  // the bright CTA back into the dark opening frame.
+  const fadeOut = interpolate(
+    frame,
+    [PROMO_DURATION_IN_FRAMES - 14, PROMO_DURATION_IN_FRAMES - 1],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
+
   return (
-    <TransitionSeries>
+    <AbsoluteFill>
+      <TransitionSeries>
       <TransitionSeries.Sequence durationInFrames={110}>
         <HookScene />
       </TransitionSeries.Sequence>
@@ -37,6 +50,10 @@ export const CollectorsCircuitPromo: React.FC = () => {
       <TransitionSeries.Sequence durationInFrames={136}>
         <CtaScene />
       </TransitionSeries.Sequence>
-    </TransitionSeries>
+      </TransitionSeries>
+      <AbsoluteFill
+        style={{ background: "black", opacity: fadeOut, pointerEvents: "none" }}
+      />
+    </AbsoluteFill>
   );
 };

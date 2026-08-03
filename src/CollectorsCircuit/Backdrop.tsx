@@ -32,7 +32,9 @@ export const Backdrop: React.FC<{
               width: 3200,
               height: 3200,
               flexShrink: 0,
-              background: `repeating-conic-gradient(from ${frame * 0.25}deg, rgba(245,197,66,0.055) 0deg 7deg, transparent 7deg 16deg)`,
+              // Period must divide 360 evenly or the pattern wraps with a
+              // visible seam that sweeps around as the rays rotate.
+              background: `repeating-conic-gradient(from ${frame * 0.25}deg, rgba(245,197,66,0.055) 0deg 8deg, transparent 8deg 18deg)`,
               maskImage:
                 "radial-gradient(circle, black 0%, transparent 62%)",
               WebkitMaskImage:
