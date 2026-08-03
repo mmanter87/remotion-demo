@@ -148,6 +148,18 @@
         "source": "github",
         "repo": "DietrichGebert/ponytail"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "i-have-adhd": {
+      "source": {
+        "source": "github",
+        "repo": "ayghri/i-have-adhd"
+      }
     }
   },
   "enabledPlugins": {
@@ -157,6 +169,8 @@
     "ruflo-neural-trader@ruflo": true,
     "superpowers@superpowers-dev": true,
     "caveman@caveman": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "codex@openai-codex": true,
+    "i-have-adhd@i-have-adhd": true
   }
 }
