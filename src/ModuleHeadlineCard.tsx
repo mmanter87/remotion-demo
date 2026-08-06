@@ -11,6 +11,7 @@ import {
   spring,
   useVideoConfig,
   staticFile,
+  random,
 } from 'remotion';
 import { loadFont } from '@remotion/fonts';
 
@@ -44,6 +45,96 @@ const gradientText = (gradient: string): React.CSSProperties => ({
   display: 'inline-block',
 });
 
+// A title line with a specular "shimmer" band that sweeps across the
+// gradient text once. The shimmer is a second copy of the text stacked on
+// top, clipped to a moving white-gold highlight gradient.
+const ShimmerLine: React.FC<{
+  text: string;
+  gradient: string;
+  entrance: number; // 0..1 spring
+  shimmerPos: number; // background-position percentage of the highlight band
+}> = ({ text, gradient, entrance, shimmerPos }) => {
+  const lineStyle: React.CSSProperties = {
+    fontSize: 92,
+    fontWeight: 700,
+    lineHeight: 1.15,
+  };
+  return (
+    <div
+      style={{
+        position: 'relative',
+        opacity: entrance,
+        transform: `translateY(${(1 - entrance) * 26}px)`,
+        filter: `blur(${(1 - entrance) * 10}px)`,
+      }}
+    >
+      <div style={{ ...lineStyle, ...gradientText(gradient) }}>{text}</div>
+      <div
+        aria-hidden
+        style={{
+          ...lineStyle,
+          ...gradientText(
+            'linear-gradient(100deg, rgba(255,255,255,0) 42%, rgba(255,248,215,0.9) 50%, rgba(255,255,255,0) 58%)'
+          ),
+          position: 'absolute',
+          inset: 0,
+          backgroundSize: '250% 100%',
+          backgroundPosition: `${shimmerPos}% 0%`,
+        }}
+      >
+        {text}
+      </div>
+    </div>
+  );
+};
+
+// Slow-drifting gold dust in the background. Deterministic: all positions
+// derive from remotion's seeded random().
+const GoldParticles: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { durationInFrames, height } = useVideoConfig();
+
+  return (
+    <AbsoluteFill>
+      {Array.from({ length: 18 }).map((_, i) => {
+        const x = random(`px-${i}`) * 100;
+        const size = 3 + random(`ps-${i}`) * 6;
+        const startY = 20 + random(`py-${i}`) * 90; // vh, some start below frame
+        const rise = 8 + random(`pr-${i}`) * 14; // vh drifted over full duration
+        const y =
+          startY -
+          interpolate(frame, [0, durationInFrames], [0, rise], {
+            extrapolateRight: 'clamp',
+          });
+        const sway = Math.sin((frame / 45) * Math.PI * 2 + i * 1.7) * 0.6;
+        const maxOpacity = 0.14 + random(`po-${i}`) * 0.22;
+        const opacity = interpolate(
+          frame,
+          [0, 18, durationInFrames - 16, durationInFrames - 1],
+          [0, maxOpacity, maxOpacity, 0],
+          { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
+        );
+        return (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left: `${x + sway}%`,
+              top: (y / 100) * height,
+              width: size,
+              height: size,
+              borderRadius: '50%',
+              backgroundColor: '#C9A227',
+              boxShadow: `0 0 ${size * 2.5}px rgba(201, 162, 39, 0.55)`,
+              opacity,
+            }}
+          />
+        );
+      })}
+    </AbsoluteFill>
+  );
+};
+
 export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
   moduleLine1,
   moduleLine2,
@@ -70,6 +161,31 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
+  // Subtitle tracking settles from airy to normal as it fades in.
+  const subtitleTracking = interpolate(frame, [26, 46], [6, 0.5], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  // One specular sweep across both title lines after they've landed,
+  // slightly offset per line so it reads as a single diagonal pass.
+  const shimmer1 = interpolate(frame, [32, 60], [130, -30], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const shimmer2 = interpolate(frame, [36, 64], [130, -30], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  // Gold hairline between title and subtitle draws out from the center.
+  const ruleWidth =
+    spring({
+      frame: frame - 22,
+      fps,
+      config: { damping: 200 },
+      durationInFrames: 20,
+    }) * 180;
 
   // Exit: over the last 12 frames, scale the text group up slightly and fade
   // to 0 so the card hands off cleanly instead of cutting mid-motion.
@@ -110,6 +226,14 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
           backgroundPosition: `${bgDrift}% ${bgDrift}%`,
         }}
       />
+      <GoldParticles />
+      {/* Soft vignette keeps the eye centered on the type. */}
+      <AbsoluteFill
+        style={{
+          backgroundImage:
+            'radial-gradient(ellipse 75% 70% at 50% 48%, rgba(26,29,41,0) 60%, rgba(26,29,41,0.10) 100%)',
+        }}
+      />
       <div
         style={{
           textAlign: 'center',
@@ -133,39 +257,30 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
           <span style={{ color: '#C9A227' }}>OS</span>
         </div>
 
-        {/* Module title, line 1 */}
-        <div>
-          <div
-            style={{
-              fontSize: 92,
-              fontWeight: 700,
-              lineHeight: 1.15,
-              opacity: line1In,
-              transform: `translateY(${(1 - line1In) * 20}px)`,
-              ...gradientText('linear-gradient(90deg, #1A1D29 0%, #C9A227 100%)'),
-            }}
-          >
-            {moduleLine1}
-          </div>
-        </div>
+        <ShimmerLine
+          text={moduleLine1}
+          gradient="linear-gradient(90deg, #1A1D29 0%, #C9A227 100%)"
+          entrance={line1In}
+          shimmerPos={shimmer1}
+        />
+        <ShimmerLine
+          text={moduleLine2}
+          gradient="linear-gradient(90deg, #C9A227 0%, #7A6B3D 50%, #1A1D29 100%)"
+          entrance={line2In}
+          shimmerPos={shimmer2}
+        />
 
-        {/* Module title, line 2 */}
-        <div>
-          <div
-            style={{
-              fontSize: 92,
-              fontWeight: 700,
-              lineHeight: 1.15,
-              opacity: line2In,
-              transform: `translateY(${(1 - line2In) * 20}px)`,
-              ...gradientText(
-                'linear-gradient(90deg, #C9A227 0%, #7A6B3D 50%, #1A1D29 100%)'
-              ),
-            }}
-          >
-            {moduleLine2}
-          </div>
-        </div>
+        {/* Gold hairline divider */}
+        <div
+          style={{
+            height: 3,
+            width: ruleWidth,
+            margin: '26px auto 0',
+            borderRadius: 2,
+            backgroundImage:
+              'linear-gradient(90deg, rgba(201,162,39,0) 0%, #C9A227 50%, rgba(201,162,39,0) 100%)',
+          }}
+        />
 
         {/* Module-specific subtitle */}
         <div
@@ -173,8 +288,9 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
             fontSize: 29,
             fontWeight: 500,
             color: '#2A2D3A',
-            marginTop: 28,
+            marginTop: 24,
             opacity: subtitleOpacity,
+            letterSpacing: subtitleTracking,
           }}
         >
           {subtitle}
