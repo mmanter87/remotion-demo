@@ -10,10 +10,22 @@ import {
   interpolate,
   spring,
   useVideoConfig,
+  staticFile,
 } from 'remotion';
-import { loadFont } from '@remotion/google-fonts/Poppins';
+import { loadFont } from '@remotion/fonts';
 
-const { fontFamily } = loadFont();
+// Poppins is bundled in public/fonts so renders work without network access.
+const fontFamily = 'Poppins';
+loadFont({
+  family: fontFamily,
+  url: staticFile('fonts/poppins-latin-500-normal.woff2'),
+  weight: '500',
+});
+loadFont({
+  family: fontFamily,
+  url: staticFile('fonts/poppins-latin-700-normal.woff2'),
+  weight: '700',
+});
 
 export type ModuleHeadlineCardProps = {
   moduleLine1: string; // e.g. "Keychain AI"
