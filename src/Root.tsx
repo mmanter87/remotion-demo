@@ -3,6 +3,7 @@ import { Composition } from "remotion";
 import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ModuleHeadlineCard } from "./ModuleHeadlineCard";
+import { OutroCard } from "./OutroCard";
 
 // Central place to edit copy for all module cards.
 // Swap/add subtitle text here as you learn each module — especially
@@ -114,6 +115,24 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={props}
         />
       ))}
+
+      {/* Closing CTA card for the end of every module video:
+          npx remotion render OutroCard out/outro.mp4 */}
+      <Composition
+        id="OutroCard"
+        component={OutroCard}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          headlineLine1: "See the Full",
+          headlineLine2: "Keychain Suite",
+          body: "One CPG-native ERP platform — from quoting to compliance.",
+          ctaLabel: "Interested in learning more? Grab time with me directly:",
+          email: "michael.manter@keychain.com",
+        }}
+      />
     </>
   );
 };

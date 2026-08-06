@@ -16,7 +16,7 @@ import {
 import { loadFont } from '@remotion/fonts';
 
 // Poppins is bundled in public/fonts so renders work without network access.
-const fontFamily = 'Poppins';
+export const fontFamily = 'Poppins';
 loadFont({
   family: fontFamily,
   url: staticFile('fonts/poppins-latin-500-normal.woff2'),
@@ -36,7 +36,7 @@ export type ModuleHeadlineCardProps = {
 
 // Shared gradient text style. Uses background-clip so the same gradient
 // technique we used in the static PNG versions translates directly.
-const gradientText = (gradient: string): React.CSSProperties => ({
+export const gradientText = (gradient: string): React.CSSProperties => ({
   backgroundImage: gradient,
   backgroundClip: 'text',
   WebkitBackgroundClip: 'text',
@@ -48,7 +48,7 @@ const gradientText = (gradient: string): React.CSSProperties => ({
 // A title line with a specular "shimmer" band that sweeps across the
 // gradient text once. The shimmer is a second copy of the text stacked on
 // top, clipped to a moving white-gold highlight gradient.
-const ShimmerLine: React.FC<{
+export const ShimmerLine: React.FC<{
   text: string;
   gradient: string;
   entrance: number; // 0..1 spring
@@ -90,7 +90,7 @@ const ShimmerLine: React.FC<{
 
 // Slow-drifting gold dust in the background. Deterministic: all positions
 // derive from remotion's seeded random().
-const GoldParticles: React.FC = () => {
+export const GoldParticles: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames, height } = useVideoConfig();
 
