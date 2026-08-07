@@ -59,7 +59,19 @@ export const MODULE_CARDS = {
     moduleLine2: "Module Overview",
     subtitle: "Digital checklists, fully 21 CFR Part 11 compliant.",
   },
+  SalesOrderToWorkOrder: {
+    moduleLine1: "Sales Order to Work Order",
+    moduleLine2: "Scheduling",
+    subtitle: "Turn a signed sales order into a scheduled production run — automatically.",
+  },
 } as const;
+
+// Per-card duration overrides (in frames at 30fps). Cards not listed here
+// run the default 90 frames; longer intros get more breathing room before
+// the exit animation so they don't end abruptly.
+const CARD_DURATIONS: Partial<Record<keyof typeof MODULE_CARDS, number>> = {
+  SalesOrderToWorkOrder: 180,
+};
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -108,7 +120,7 @@ export const RemotionRoot: React.FC = () => {
           key={key}
           id={`HeadlineCard-${key}`}
           component={ModuleHeadlineCard}
-          durationInFrames={90}
+          durationInFrames={CARD_DURATIONS[key as keyof typeof MODULE_CARDS] ?? 90}
           fps={30}
           width={1920}
           height={1080}
