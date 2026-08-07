@@ -64,6 +64,11 @@ export const MODULE_CARDS = {
     moduleLine2: "Scheduling",
     subtitle: "Turn a signed sales order into a scheduled production run — automatically.",
   },
+  FindTheShortage: {
+    moduleLine1: "Find the Shortage,",
+    moduleLine2: "Before It Stops the Run",
+    subtitle: "Live inventory, checked against every scheduled run.",
+  },
 } as const;
 
 // Per-card duration overrides (in frames at 30fps). Cards not listed here
@@ -71,6 +76,7 @@ export const MODULE_CARDS = {
 // the exit animation so they don't end abruptly.
 const CARD_DURATIONS: Partial<Record<keyof typeof MODULE_CARDS, number>> = {
   SalesOrderToWorkOrder: 420,
+  FindTheShortage: 180,
 };
 
 // Each <Composition> is an entry in the sidebar!
