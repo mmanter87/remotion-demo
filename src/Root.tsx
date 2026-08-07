@@ -70,7 +70,7 @@ export const MODULE_CARDS = {
 // run the default 90 frames; longer intros get more breathing room before
 // the exit animation so they don't end abruptly.
 const CARD_DURATIONS: Partial<Record<keyof typeof MODULE_CARDS, number>> = {
-  SalesOrderToWorkOrder: 180,
+  SalesOrderToWorkOrder: 420,
 };
 
 // Each <Composition> is an entry in the sidebar!

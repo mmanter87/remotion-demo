@@ -167,13 +167,17 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
     extrapolateRight: 'clamp',
   });
 
-  // One specular sweep across both title lines after they've landed,
-  // slightly offset per line so it reads as a single diagonal pass.
-  const shimmer1 = interpolate(frame, [32, 60], [130, -30], {
+  // Specular sweep across both title lines after they've landed, slightly
+  // offset per line so it reads as a single diagonal pass. On long cards the
+  // sweep recurs every ~4.5s so the hold doesn't go static; between passes
+  // the band parks off-text at -30.
+  const shimmerCycle = 140;
+  const shimmerFrame = frame < 32 ? -1 : (frame - 32) % shimmerCycle;
+  const shimmer1 = interpolate(shimmerFrame, [0, 28], [130, -30], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const shimmer2 = interpolate(frame, [36, 64], [130, -30], {
+  const shimmer2 = interpolate(shimmerFrame, [4, 32], [130, -30], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
