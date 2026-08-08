@@ -32,7 +32,9 @@ export const MODULE_CARDS = {
   Traceability: {
     moduleLine1: "Traceability",
     moduleLine2: "Module Overview",
-    subtitle: "Full recall reports, in seconds — not days.",
+    subtitle: "End-to-end chain of custody.",
+    audioSrc: "jingle.wav",
+    audioVolume: 0.5,
   },
   Workflows: {
     moduleLine1: "Workflows",
@@ -77,6 +79,7 @@ export const MODULE_CARDS = {
 const CARD_DURATIONS: Partial<Record<keyof typeof MODULE_CARDS, number>> = {
   SalesOrderToWorkOrder: 420,
   FindTheShortage: 180,
+  Traceability: 180,
 };
 
 // Each <Composition> is an entry in the sidebar!

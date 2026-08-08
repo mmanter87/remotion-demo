@@ -6,6 +6,7 @@
 import React from 'react';
 import {
   AbsoluteFill,
+  Audio,
   useCurrentFrame,
   interpolate,
   spring,
@@ -32,6 +33,8 @@ export type ModuleHeadlineCardProps = {
   moduleLine1: string; // e.g. "Keychain AI"
   moduleLine2: string; // e.g. "Module Overview"
   subtitle: string; // module-specific value line
+  audioSrc?: string; // filename in public/, e.g. "jingle.wav"
+  audioVolume?: number; // 0..1, defaults to 0.5
 };
 
 // Shared gradient text style. Uses background-clip so the same gradient
@@ -139,6 +142,8 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
   moduleLine1,
   moduleLine2,
   subtitle,
+  audioSrc,
+  audioVolume = 0.5,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -222,6 +227,7 @@ export const ModuleHeadlineCard: React.FC<ModuleHeadlineCardProps> = ({
         alignItems: 'center',
       }}
     >
+      {audioSrc ? <Audio src={staticFile(audioSrc)} volume={audioVolume} /> : null}
       <AbsoluteFill
         style={{
           backgroundImage:
