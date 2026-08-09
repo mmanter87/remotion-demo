@@ -4,6 +4,7 @@ import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ModuleHeadlineCard } from "./ModuleHeadlineCard";
 import { OutroCard } from "./OutroCard";
+import { SeriesCard } from "./SeriesCard";
 
 // Central place to edit copy for all module cards.
 // Swap/add subtitle text here as you learn each module — especially
@@ -136,6 +137,25 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={props}
         />
       ))}
+
+      {/* Thumbnail-series intro card (REMOTIONSPEC.md treatment):
+          npx remotion render SeriesCard-PurchasePlan out/series-purchase-plan.mp4
+          Pass screenshotSrc (a file in public/) to swap the mock UI for a
+          real product screenshot. */}
+      <Composition
+        id="SeriesCard-PurchasePlan"
+        component={SeriesCard}
+        durationInFrames={210}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          headlineLines: ["Nobody", "added it up."],
+          accentLine: "It already did.",
+          subLine: "Four runs · sixteen shortages · five orders",
+          badgeText: "4 MINUTES",
+        }}
+      />
 
       {/* Closing CTA card for the end of every module video:
           npx remotion render OutroCard out/outro.mp4 */}
