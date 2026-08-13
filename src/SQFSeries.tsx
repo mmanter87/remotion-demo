@@ -122,6 +122,7 @@ export type SQFEpisodeCardProps = {
   speaker: string; // "Jim White"
   speakerRole: string; // "SQF consultant & trainer"
   footer: string; // "RECORDED LIVE · EDITION 10 SESSION"
+  headlineSize?: number; // px override for long titles (default 86)
 };
 
 export const SQFEpisodeCard: React.FC<SQFEpisodeCardProps> = ({
@@ -132,6 +133,7 @@ export const SQFEpisodeCard: React.FC<SQFEpisodeCardProps> = ({
   speaker,
   speakerRole,
   footer,
+  headlineSize = 86,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -192,7 +194,7 @@ export const SQFEpisodeCard: React.FC<SQFEpisodeCardProps> = ({
           width: 910,
           fontFamily: poppins,
           fontWeight: 700,
-          fontSize: 86,
+          fontSize: headlineSize,
           lineHeight: 1.1,
           letterSpacing: -1.5,
           color: CREAM,

@@ -53,6 +53,117 @@ const SQF_TOPICS = [
     },
     endTeaser: "Coming next in the Edition 10 series.",
   },
+  // Posts 1-9: each end card references the next post in the series.
+  {
+    slug: "Post1-SiteRequirements",
+    start: {
+      episodeNumber: "04",
+      kicker: "THE REQUIREMENT",
+      headline: [
+        { text: "SQF Practitioner " },
+        { text: "Site Requirements", accent: true },
+      ],
+    },
+    endTeaser: "Practitioner qualifications and HACCP.",
+  },
+  {
+    slug: "Post2-QualificationsHACCP",
+    start: {
+      episodeNumber: "05",
+      kicker: "THE QUALIFICATIONS",
+      headline: [
+        { text: "Practitioner Qualifications and " },
+        { text: "HACCP", accent: true },
+      ],
+    },
+    endTeaser: "PCQI training changes.",
+  },
+  {
+    slug: "Post3-PCQITraining",
+    start: {
+      episodeNumber: "06",
+      kicker: "THE TRAINING",
+      headline: [
+        { text: "PCQI " },
+        { text: "Training Changes", accent: true },
+      ],
+    },
+    endTeaser: "A quality manager over multiple sites.",
+  },
+  {
+    slug: "Post4-MultiSiteQualityManager",
+    start: {
+      episodeNumber: "07",
+      kicker: "THE STRUCTURE",
+      headline: [
+        { text: "Quality Manager Over " },
+        { text: "Multiple Sites", accent: true },
+      ],
+    },
+    endTeaser: "Management review documentation changes.",
+  },
+  {
+    slug: "Post5-MgmtReviewDocs",
+    start: {
+      episodeNumber: "08",
+      kicker: "THE DOCUMENTATION",
+      headlineSize: 74,
+      headline: [
+        { text: "Management Review " },
+        { text: "Documentation Changes", accent: true },
+      ],
+    },
+    endTeaser: "Making management review count.",
+  },
+  {
+    slug: "Post6-MgmtReviewCount",
+    start: {
+      episodeNumber: "09",
+      kicker: "THE PRACTICE",
+      headline: [
+        { text: "Making Management Review " },
+        { text: "Count", accent: true },
+      ],
+    },
+    endTeaser: "Complaint management changes.",
+  },
+  {
+    slug: "Post7-ComplaintMgmt",
+    start: {
+      episodeNumber: "10",
+      kicker: "THE PROCESS",
+      headline: [
+        { text: "Complaint Management " },
+        { text: "Changes", accent: true },
+      ],
+    },
+    endTeaser: "Documentation and records requirements.",
+  },
+  {
+    slug: "Post8-DocsAndRecords",
+    start: {
+      episodeNumber: "11",
+      kicker: "THE RECORDS",
+      headline: [
+        { text: "Documentation and " },
+        { text: "Records Requirements", accent: true },
+      ],
+    },
+    endTeaser: "Auditor Q&A on document control and SOP review.",
+  },
+  {
+    slug: "Post9-AuditorQandA",
+    start: {
+      episodeNumber: "12",
+      kicker: "THE Q&A",
+      headline: [
+        { text: "Auditor Q&A on " },
+        { text: "Document Control", accent: true },
+        { text: " and SOP Review" },
+      ],
+    },
+    endTeaser: "Coming next in the Edition 10 series.",
+  },
 ];
 
 // Central place to edit copy for all module cards.
