@@ -279,45 +279,41 @@ export const SQFNextCard: React.FC<SQFNextCardProps> = ({
         <div style={{ color: GOLD, ...fadeRise(frame, fps, 13) }}>{titleLine2}</div>
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          left: 90,
-          top: 540,
-          fontFamily: mono,
-          fontSize: 26,
-          fontWeight: 500,
-          letterSpacing: 10,
-          color: MUTED,
-          ...fadeRise(frame, fps, 24),
-        }}
-      >
-        {kicker}
-      </div>
+      {/* Flow column: the stamp always clears the teaser, even two-liners */}
+      <div style={{ position: 'absolute', left: 88, top: 540, width: 910 }}>
+        <div
+          style={{
+            fontFamily: mono,
+            fontSize: 26,
+            fontWeight: 500,
+            letterSpacing: 10,
+            color: MUTED,
+            marginBottom: 26,
+            ...fadeRise(frame, fps, 24),
+          }}
+        >
+          {kicker}
+        </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          left: 88,
-          top: 596,
-          width: 910,
-          fontFamily: poppins,
-          fontWeight: 700,
-          fontSize: 44,
-          letterSpacing: -0.5,
-          color: CREAM,
-          ...fadeRise(frame, fps, 32),
-        }}
-      >
-        {teaser}
-      </div>
+        <div
+          style={{
+            fontFamily: poppins,
+            fontWeight: 700,
+            fontSize: 44,
+            lineHeight: 1.3,
+            letterSpacing: -0.5,
+            color: CREAM,
+            ...fadeRise(frame, fps, 32),
+          }}
+        >
+          {teaser}
+        </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          left: 90,
-          top: 706,
-          padding: '16px 30px',
+        <div
+          style={{
+            marginTop: 44,
+            marginLeft: 2,
+            padding: '16px 30px',
           border: `2.5px solid ${STAMP}`,
           fontFamily: mono,
           fontSize: 28,
@@ -331,6 +327,7 @@ export const SQFNextCard: React.FC<SQFNextCardProps> = ({
         }}
       >
         {stamp}
+        </div>
       </div>
     </CardShell>
   );

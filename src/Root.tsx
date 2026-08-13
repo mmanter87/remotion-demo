@@ -16,44 +16,42 @@ const SQF_SPEAKER = {
   footer: "RECORDED LIVE · EDITION 10 SESSION",
 } as const;
 
-const SQF_EPISODES = [
+const SQF_TOPICS = [
   {
-    id: "SQF-EpisodeCard-01",
-    episodeNumber: "01",
-    kicker: "THE QUESTION",
-    headline: [
-      { text: "Does SQF actually require a " },
-      { text: "mass balance?", accent: true },
-    ],
+    slug: "MassBalance",
+    start: {
+      episodeNumber: "01",
+      kicker: "THE QUESTION",
+      headline: [
+        { text: "Does SQF actually require a " },
+        { text: "mass balance?", accent: true },
+      ],
+    },
+    endTeaser: "One product, one day — and the whole audit runs off it.",
   },
   {
-    id: "SQF-EpisodeCard-02",
-    episodeNumber: "02",
-    kicker: "THE MECHANISM",
-    headline: [
-      { text: "One product. One day. " },
-      { text: "The whole audit.", accent: true },
-    ],
+    slug: "VerticalTrace",
+    start: {
+      episodeNumber: "02",
+      kicker: "THE MECHANISM",
+      headline: [
+        { text: "One product. One day. " },
+        { text: "The whole audit.", accent: true },
+      ],
+    },
+    endTeaser: "When the auditor is wrong, appeal it.",
   },
   {
-    id: "SQF-EpisodeCard-03",
-    episodeNumber: "03",
-    kicker: "THE POSITION",
-    headline: [
-      { text: "Know the code better than " },
-      { text: "your auditor.", accent: true },
-    ],
-  },
-];
-
-const SQF_NEXT_CARDS = [
-  {
-    id: "SQF-EndCard-ComingNext",
-    teaser: "Coming next in the Edition 10 series.",
-  },
-  {
-    id: "SQF-EndCard-Appeal",
-    teaser: "When the auditor is wrong, appeal it.",
+    slug: "KnowTheCode",
+    start: {
+      episodeNumber: "03",
+      kicker: "THE POSITION",
+      headline: [
+        { text: "Know the code better than " },
+        { text: "your auditor.", accent: true },
+      ],
+    },
+    endTeaser: "Coming next in the Edition 10 series.",
   },
 ];
 
@@ -189,23 +187,24 @@ export const RemotionRoot: React.FC = () => {
         />
       ))}
 
-      {/* SQF Edition 10 educational series — square format, 5s each */}
-      {SQF_EPISODES.map(({ id, ...props }) => (
+      {/* SQF Edition 10 educational series — square, 5s, one start + one
+          end card per topic, labeled SQF-<Topic>-Start / SQF-<Topic>-End */}
+      {SQF_TOPICS.map(({ slug, start }) => (
         <Composition
-          key={id}
-          id={id}
+          key={`${slug}-start`}
+          id={`SQF-${slug}-Start`}
           component={SQFEpisodeCard}
           durationInFrames={150}
           fps={30}
           width={1080}
           height={1080}
-          defaultProps={{ ...SQF_SPEAKER, ...props }}
+          defaultProps={{ ...SQF_SPEAKER, ...start }}
         />
       ))}
-      {SQF_NEXT_CARDS.map(({ id, teaser }) => (
+      {SQF_TOPICS.map(({ slug, endTeaser }) => (
         <Composition
-          key={id}
-          id={id}
+          key={`${slug}-end`}
+          id={`SQF-${slug}-End`}
           component={SQFNextCard}
           durationInFrames={150}
           fps={30}
@@ -215,7 +214,7 @@ export const RemotionRoot: React.FC = () => {
             titleLine1: "SQF Edition 10",
             titleLine2: "with Jim White",
             kicker: "NEXT IN THE SERIES",
-            teaser,
+            teaser: endTeaser,
             stamp: "AUDITS FROM 2 JAN 2027",
           }}
         />
