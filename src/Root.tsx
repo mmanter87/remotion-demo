@@ -18,7 +18,7 @@ const SQF_SPEAKER = {
 
 const SQF_EPISODES = [
   {
-    id: "SQF-01-Question",
+    id: "SQF-EpisodeCard-01",
     episodeNumber: "01",
     kicker: "THE QUESTION",
     headline: [
@@ -27,7 +27,7 @@ const SQF_EPISODES = [
     ],
   },
   {
-    id: "SQF-02-Mechanism",
+    id: "SQF-EpisodeCard-02",
     episodeNumber: "02",
     kicker: "THE MECHANISM",
     headline: [
@@ -36,7 +36,7 @@ const SQF_EPISODES = [
     ],
   },
   {
-    id: "SQF-03-Position",
+    id: "SQF-EpisodeCard-03",
     episodeNumber: "03",
     kicker: "THE POSITION",
     headline: [
@@ -48,11 +48,11 @@ const SQF_EPISODES = [
 
 const SQF_NEXT_CARDS = [
   {
-    id: "SQF-Next-ComingNext",
+    id: "SQF-EndCard-ComingNext",
     teaser: "Coming next in the Edition 10 series.",
   },
   {
-    id: "SQF-Next-Appeal",
+    id: "SQF-EndCard-Appeal",
     teaser: "When the auditor is wrong, appeal it.",
   },
 ];

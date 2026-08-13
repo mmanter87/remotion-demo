@@ -25,17 +25,13 @@ loadFont({
   url: staticFile('fonts/poppins-latin-700-normal.woff2'),
   weight: '700',
 });
-const mono = 'JetBrains Mono';
 loadFont({
-  family: mono,
-  url: staticFile('fonts/jetbrains-mono-latin-500-normal.woff2'),
+  family: poppins,
+  url: staticFile('fonts/poppins-latin-500-normal.woff2'),
   weight: '500',
 });
-loadFont({
-  family: mono,
-  url: staticFile('fonts/jetbrains-mono-latin-700-normal.woff2'),
-  weight: '700',
-});
+// Every element uses the brand font; supporting text just drops to 500.
+const mono = poppins;
 
 const BG = '#1A231F';
 const BAR = '#D9A426';
