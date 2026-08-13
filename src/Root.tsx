@@ -5,6 +5,57 @@ import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ModuleHeadlineCard } from "./ModuleHeadlineCard";
 import { OutroCard } from "./OutroCard";
 import { SeriesCard } from "./SeriesCard";
+import { SQFEpisodeCard, SQFNextCard } from "./SQFSeries";
+
+// SQF Edition 10 educational series (1080x1080, 5s each, chime bookends).
+// Slot in the remaining episode by adding an entry here.
+const SQF_SPEAKER = {
+  speaker: "Jim White",
+  speakerRole: "SQF consultant & trainer",
+  seriesLabel: "SQF EDITION 10",
+  footer: "RECORDED LIVE · EDITION 10 SESSION",
+} as const;
+
+const SQF_EPISODES = [
+  {
+    id: "SQF-01-Question",
+    episodeNumber: "01",
+    kicker: "THE QUESTION",
+    headline: [
+      { text: "Does SQF actually require a " },
+      { text: "mass balance?", accent: true },
+    ],
+  },
+  {
+    id: "SQF-02-Mechanism",
+    episodeNumber: "02",
+    kicker: "THE MECHANISM",
+    headline: [
+      { text: "One product. One day. " },
+      { text: "The whole audit.", accent: true },
+    ],
+  },
+  {
+    id: "SQF-03-Position",
+    episodeNumber: "03",
+    kicker: "THE POSITION",
+    headline: [
+      { text: "Know the code better than " },
+      { text: "your auditor.", accent: true },
+    ],
+  },
+];
+
+const SQF_NEXT_CARDS = [
+  {
+    id: "SQF-Next-ComingNext",
+    teaser: "Coming next in the Edition 10 series.",
+  },
+  {
+    id: "SQF-Next-Appeal",
+    teaser: "When the auditor is wrong, appeal it.",
+  },
+];
 
 // Central place to edit copy for all module cards.
 // Swap/add subtitle text here as you learn each module — especially
@@ -135,6 +186,38 @@ export const RemotionRoot: React.FC = () => {
           width={1920}
           height={1080}
           defaultProps={props}
+        />
+      ))}
+
+      {/* SQF Edition 10 educational series — square format, 5s each */}
+      {SQF_EPISODES.map(({ id, ...props }) => (
+        <Composition
+          key={id}
+          id={id}
+          component={SQFEpisodeCard}
+          durationInFrames={150}
+          fps={30}
+          width={1080}
+          height={1080}
+          defaultProps={{ ...SQF_SPEAKER, ...props }}
+        />
+      ))}
+      {SQF_NEXT_CARDS.map(({ id, teaser }) => (
+        <Composition
+          key={id}
+          id={id}
+          component={SQFNextCard}
+          durationInFrames={150}
+          fps={30}
+          width={1080}
+          height={1080}
+          defaultProps={{
+            titleLine1: "SQF Edition 10",
+            titleLine2: "with Jim White",
+            kicker: "NEXT IN THE SERIES",
+            teaser,
+            stamp: "AUDITS FROM 2 JAN 2027",
+          }}
         />
       ))}
 
