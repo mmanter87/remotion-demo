@@ -4,7 +4,7 @@
 // ModuleHeadlineCard (ivory gradient drift, gold particles, shimmer
 // headline lines, gold hairline, push-in, exit fade) but deliberately
 // carries no Keychain branding — the brand only appears on the OutroCard.
-// Duration: designed for 240 frames (8s) at 30fps.
+// Duration: designed for 300 frames (10s) at 30fps.
 
 import React from 'react';
 import {
@@ -35,25 +35,25 @@ const HOOK_LINES: Array<{
 }> = [
   {
     text: "Your auditor doesn't ask for a record.",
-    delay: 14,
+    delay: 16,
     fontSize: 64,
     gradient: 'linear-gradient(90deg, #1A1D29 0%, #2A2D3A 100%)',
   },
   {
     text: 'They ask for one.',
-    delay: 62,
+    delay: 78,
     fontSize: 88,
     gradient: 'linear-gradient(90deg, #1A1D29 0%, #C9A227 100%)',
   },
   {
     text: 'Then the one behind it.',
-    delay: 112,
+    delay: 142,
     fontSize: 64,
     gradient: 'linear-gradient(90deg, #2A2D3A 0%, #7A6B3D 100%)',
   },
   {
     text: 'And then the one behind that.',
-    delay: 152,
+    delay: 192,
     fontSize: 64,
     gradient: 'linear-gradient(90deg, #C9A227 0%, #7A6B3D 50%, #1A1D29 100%)',
   },
@@ -76,18 +76,18 @@ export const AuditFunnelOpener: React.FC<AuditFunnelOpenerProps> = ({
   // Gold hairline draws once the full hook has landed.
   const ruleWidth =
     spring({
-      frame: frame - 186,
+      frame: frame - 232,
       fps,
       config: { damping: 200 },
       durationInFrames: 20,
     }) * 180;
 
-  const topicsOpacity = interpolate(frame, [192, 208], [0, 1], {
+  const topicsOpacity = interpolate(frame, [238, 254], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
   // Topics tracking settles from airy to normal as the line fades in.
-  const topicsTracking = interpolate(frame, [192, 214], [6, 1], {
+  const topicsTracking = interpolate(frame, [238, 260], [6, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });

@@ -117,13 +117,13 @@ export const RemotionRoot: React.FC = () => {
         />
       ))}
 
-      {/* Top-of-funnel opener (8s) for the audit readiness video. Unbranded
+      {/* Top-of-funnel opener (10s) for the audit readiness video. Unbranded
           on purpose — the brand only appears on the OutroCard at the end:
           npx remotion render AuditFunnelOpener out/audit-opener.mp4 */}
       <Composition
         id="AuditFunnelOpener"
         component={AuditFunnelOpener}
-        durationInFrames={240}
+        durationInFrames={300}
         fps={30}
         width={1920}
         height={1080}
