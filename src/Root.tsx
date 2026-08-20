@@ -3,6 +3,8 @@ import { Composition } from "remotion";
 import { HelloWorld, myCompSchema } from "./HelloWorld";
 import { Logo, myCompSchema2 } from "./HelloWorld/Logo";
 import { ModuleHeadlineCard } from "./ModuleHeadlineCard";
+import { OutroCard } from "./OutroCard";
+import { AuditFunnelOpener } from "./AuditFunnelOpener";
 
 // Central place to edit copy for all module cards.
 // Swap/add subtitle text here as you learn each module — especially
@@ -114,6 +116,42 @@ export const RemotionRoot: React.FC = () => {
           defaultProps={props}
         />
       ))}
+
+      {/* Top-of-funnel opener (8s) for the audit readiness video. Unbranded
+          on purpose — the brand only appears on the OutroCard at the end:
+          npx remotion render AuditFunnelOpener out/audit-opener.mp4 */}
+      <Composition
+        id="AuditFunnelOpener"
+        component={AuditFunnelOpener}
+        durationInFrames={240}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          kicker: "AUDIT READINESS",
+          topics:
+            "Audit Readiness · Food Safety · Forms Training · Traceability",
+        }}
+      />
+
+      {/* Closing CTA card — first brand mention in the video:
+          npx remotion render OutroCard out/outro.mp4 */}
+      <Composition
+        id="OutroCard"
+        component={OutroCard}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          headlineLine1: "Keychain",
+          headlineLine2: "The Modern ERP",
+          body: "Built for the food & beverage CPG space — from audit readiness to traceability.",
+          ctaLabel:
+            "Reach out by email — or continue with any steps already scheduled:",
+          email: "michael.manter@keychain.com",
+        }}
+      />
     </>
   );
 };
